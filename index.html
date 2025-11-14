@@ -1,0 +1,1332 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <title>Cedric Tran — Data Analyst Portfolio</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+  <link rel="stylesheet" href="assets/css/main.css" />
+  <style>
+    .carousel-container {
+      position: relative;
+      max-width: 100%;
+      overflow: hidden;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      margin-top: 10px;
+    }
+    .carousel-slide {
+      display: flex;
+      transition: transform 0.5s ease;
+    }
+    .carousel-image {
+      width: 100%;
+      flex-shrink: 0;
+      display: none;
+      border-radius: 8px;
+      opacity: 0;
+      transition: opacity 0.5s ease-in-out;
+    }
+    .carousel-image.active {
+      display: block;
+      opacity: 1;
+    }
+    .carousel-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background-color: rgba(255, 255, 255, 0.75);
+      color: #333;
+      border: 1px solid rgba(0,0,0,0.15);
+      width: 36px;
+      height: 36px;
+      line-height: 36px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 18px;
+      font-weight: bold;
+      text-align: center;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+      transition: background-color 0.3s, transform 0.2s;
+    }
+    .carousel-btn:hover {
+      background-color: rgba(255, 255, 255, 0.95);
+      transform: translateY(-50%) scale(1.1);
+    }
+    .carousel-btn.prev { left: 12px; }
+    .carousel-btn.next { right: 12px; }
+    @media (max-width: 768px) {
+      .carousel-btn {
+        width: 28px;
+        height: 28px;
+        line-height: 28px;
+        font-size: 14px;
+      }
+    }
+    
+    /* Stats Cards Styles */
+    .stats-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+      margin: 20px 0;
+      padding: 0 10px;
+    }
+    
+    .stat-card {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border-radius: 12px;
+      padding: 20px;
+      text-align: center;
+      color: white;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .stat-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
+      border-radius: 12px;
+    }
+    
+    .stat-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    }
+    
+    .stat-card:nth-child(1) {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+    
+    .stat-card:nth-child(2) {
+      background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    }
+    
+    .stat-card:nth-child(3) {
+      background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    }
+    
+    .stat-card:nth-child(4) {
+      background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+    }
+    
+    .stat-card:nth-child(5) {
+      background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+    }
+    
+    .stat-card:nth-child(6) {
+      background: linear-gradient(135deg, #a8c0ff 0%, #3f2b96 100%);
+    }
+    
+    .stat-number {
+      font-size: 2.2em;
+      font-weight: bold;
+      margin-bottom: 8px;
+      display: block;
+      position: relative;
+      z-index: 1;
+    }
+    
+    .stat-label {
+      font-size: 0.9em;
+      opacity: 0.9;
+      font-weight: 500;
+      position: relative;
+      z-index: 1;
+    }
+    
+    .stat-icon {
+      font-size: 1.5em;
+      margin-bottom: 10px;
+      display: block;
+      position: relative;
+      z-index: 1;
+    }
+    
+    @media (max-width: 768px) {
+      .stats-container {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+        margin: 15px 0;
+      }
+      
+      .stat-card {
+        padding: 15px;
+      }
+      
+      .stat-number {
+        font-size: 1.8em;
+      }
+      
+      .stat-label {
+        font-size: 0.8em;
+      }
+    }
+    
+    @media (max-width: 600px) {
+      .stats-container {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .stats-container {
+        grid-template-columns: 1fr;
+      }
+    }
+    
+    /* Highlight Styles for Important Keywords and Numbers */
+    .highlight {
+      background: linear-gradient(120deg, #a8edea 0%, #fed6e3 100%);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-weight: 600;
+      color: #2c3e50;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      display: inline-block;
+      margin: 0 1px;
+    }
+    
+    .highlight-number {
+      background: linear-gradient(120deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 2px 8px;
+      border-radius: 6px;
+      font-weight: bold;
+      box-shadow: 0 2px 4px rgba(102, 126, 234, 0.3);
+      display: inline-block;
+      margin: 0 2px;
+    }
+    
+    .highlight-tech {
+      background: linear-gradient(120deg, #f093fb 0%, #f5576c 100%);
+      color: white;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-weight: 500;
+      font-size: 0.95em;
+      box-shadow: 0 1px 3px rgba(240, 147, 251, 0.3);
+      display: inline-block;
+      margin: 0 1px;
+    }
+    
+    .highlight-result {
+      background: linear-gradient(120deg, #4facfe 0%, #00f2fe 100%);
+      color: white;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-weight: 600;
+      box-shadow: 0 1px 3px rgba(79, 172, 254, 0.3);
+      display: inline-block;
+      margin: 0 1px;
+    }
+    
+    /* Roadmap Timeline Styles */
+    .roadmap-container {
+      margin: 20px 0;
+    }
+    
+    .roadmap-timeline {
+      position: relative;
+      padding-left: 30px;
+    }
+    
+    .roadmap-timeline::before {
+      content: '';
+      position: absolute;
+      left: 15px;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: linear-gradient(180deg, #667eea 0%, #764ba2 100%);
+      border-radius: 1px;
+    }
+    
+    .roadmap-item {
+      position: relative;
+      margin-bottom: 25px;
+      padding-left: 20px;
+    }
+    
+    .roadmap-item::before {
+      content: '';
+      position: absolute;
+      left: -22px;
+      top: 8px;
+      width: 12px;
+      height: 12px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border-radius: 50%;
+      border: 3px solid white;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    
+    .roadmap-item.current::before {
+      background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+      animation: pulse 2s infinite;
+    }
+    
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+    
+    .roadmap-date {
+      font-size: 0.8em;
+      color: #888;
+      font-weight: 500;
+      margin-bottom: 5px;
+    }
+    
+    .roadmap-title {
+      font-size: 1em;
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 3px;
+    }
+    
+    .roadmap-company {
+      font-size: 0.9em;
+      color: #666;
+      font-weight: 500;
+      margin-bottom: 8px;
+    }
+    
+    .roadmap-description {
+      font-size: 0.85em;
+      color: #777;
+      line-height: 1.4;
+    }
+    
+    .roadmap-highlight {
+      background: linear-gradient(120deg, #a8edea 0%, #fed6e3 100%);
+      padding: 1px 4px;
+      border-radius: 3px;
+      font-weight: 500;
+      color: #2c3e50;
+    }
+    
+    .roadmap-section h2 {
+      margin-bottom: 15px;
+      color: #333;
+      font-size: 1.2em;
+    }
+    
+    .roadmap-section h3 {
+      margin: 20px 0 10px 0;
+      color: #555;
+      font-size: 1em;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 5px;
+    }
+    
+    .contact-info {
+      background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      border-left: 4px solid #667eea;
+    }
+    
+    .contact-info h3 {
+      margin: 0 0 10px 0;
+      color: #333;
+      font-size: 1.1em;
+    }
+    
+    .contact-info p {
+      margin: 5px 0;
+      font-size: 0.9em;
+      color: #666;
+    }
+    
+    .contact-info a {
+      color: #667eea;
+      text-decoration: none;
+      font-weight: 500;
+    }
+    
+    .contact-info a:hover {
+      color: #764ba2;
+      text-decoration: underline;
+    }
+    
+    /* Certifications Styles */
+    .certification-item {
+      background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+      border-radius: 8px;
+      padding: 15px;
+      margin-bottom: 15px;
+      border-left: 4px solid #667eea;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    
+    .certification-item:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    
+    .certification-item.microsoft {
+      border-left-color: #00bcf2;
+    }
+    
+    .certification-item.hackerrank {
+      border-left-color: #2ec866;
+    }
+    
+    .certification-item.forage {
+      border-left-color: #ff6b35;
+    }
+    
+    .cert-date {
+      font-size: 0.8em;
+      color: #888;
+      font-weight: 500;
+      margin-bottom: 5px;
+    }
+    
+    .cert-title {
+      font-size: 1em;
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 3px;
+    }
+    
+    .cert-issuer {
+      font-size: 0.9em;
+      color: #666;
+      font-weight: 500;
+      margin-bottom: 8px;
+    }
+    
+    .cert-skills {
+      font-size: 0.85em;
+      color: #777;
+      line-height: 1.4;
+    }
+    
+    .cert-badge {
+      display: inline-block;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 2px 8px;
+      border-radius: 12px;
+      font-size: 0.75em;
+      font-weight: 500;
+      margin-right: 5px;
+      margin-bottom: 5px;
+    }
+    
+    .cert-badge.microsoft {
+      background: linear-gradient(135deg, #00bcf2 0%, #0078d4 100%);
+    }
+    
+    .cert-badge.hackerrank {
+      background: linear-gradient(135deg, #2ec866 0%, #1e7e34 100%);
+    }
+    
+    .cert-badge.forage {
+      background: linear-gradient(135deg, #ff6b35 0%, #e55a2b 100%);
+    }
+    
+    .cert-title a {
+      color: #333;
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+    
+    .cert-title a:hover {
+      color: #667eea;
+      text-decoration: underline;
+    }
+    /* Category Filter (top-right) */
+    .category-filter {
+      position: absolute;
+      right: 70px;
+      top: 16px;
+      display: flex;
+      gap: 6px;
+      z-index: 10;
+    }
+    .category-filter .cat-btn {
+      padding: 6px 10px;
+      border-radius: 16px;
+      border: 1px solid rgba(0,0,0,0.1);
+      background: #fff;
+      font-size: 12px;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s, border-color 0.2s;
+    }
+    .category-filter .cat-btn.active {
+      background: #667eea;
+      color: #fff;
+      border-color: #667eea;
+    }
+    @media (max-width: 768px) {
+      .category-filter { right: 54px; top: 14px; }
+      .category-filter .cat-btn { padding: 5px 8px; font-size: 11px; }
+    }
+
+    /* Project media overlay button */
+    .project-media { position: relative; }
+  </style>
+</head>
+
+<body class="is-preload">
+<div id="wrapper">
+
+  <!-- Header -->
+  <header id="header">
+    <h1><a href="index.html">Cedric Tran</a></h1>
+    <nav class="links">
+      <ul>
+        <li><a href="#main">Projects</a></li>
+        <li><a href="#intro">About</a></li>
+        <li><a href="#footer">Contact</a></li>
+      </ul>
+    </nav>
+    <nav class="main">
+      <ul>
+        <li class="search">
+          <a class="fa-search" href="#search">Search</a>
+          <form id="search" method="get" action="#">
+            <input type="text" name="query" placeholder="Search" />
+          </form>
+        </li>
+        <li class="menu"><a class="fa-bars" href="#menu">Menu</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Menu -->
+  <section id="menu">
+    <section>
+      <form class="search" method="get" action="#">
+        <input type="text" name="query" placeholder="Search" />
+      </form>
+    </section>
+    <section>
+      <ul class="links">
+        <li><a href="#main"><h3>Projects</h3><p>Power BI · SQL · Tableau · Python · Excel</p></a></li>
+        <li><a href="#intro"><h3>About</h3><p>Data Analyst in Melbourne, AU</p></a></li>
+        <li><a href="#footer"><h3>Contact</h3><p>LinkedIn · GitHub · Email</p></a></li>
+      </ul>
+    </section>
+    <section>
+      <ul class="actions stacked">
+        <li><a href="https://github.com/TranVuongHoan" class="button large fit" target="_blank">GitHub</a></li>
+      </ul>
+    </section>
+  </section>
+
+  <!-- Main -->
+  <div id="main">
+
+    <!-- Coffee Sales -->
+    <article class="post" data-category="powerbi">
+      <header><div class="title">
+        <h2><a href="https://github.com/TranVuongHoan/CoffeeSalesPowerBI" target="_blank">Coffee Sales Dashboard (Power BI)</a></h2>
+        <p>Interactive sales analytics with 12+ views, growth trends, and product/category performance.</p></div>
+        <div class="meta"><time class="published">Jun 2023</time><a href="#" class="author"><span class="name">Cedric Tran</span><img src="images/avatar.jpg" alt=""/></a></div></header>
+      <div class="project-media">
+        <a href="https://github.com/TranVuongHoan/CoffeeSalesPowerBI" class="image featured"><img src="https://vuong-hoan-analyst-portfolio.netlify.app/images/coffee.png" alt="Coffee" /></a>
+      </div>
+      
+      <!-- Stats Cards for Coffee Sales -->
+      <div class="stats-container">
+        <div class="stat-card">
+          <span class="stat-icon">📊</span>
+          <span class="stat-number">10,000+</span>
+          <span class="stat-label">Sales Records</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-icon">🏪</span>
+          <span class="stat-number">25</span>
+          <span class="stat-label">Store Locations</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-icon">📈</span>
+          <span class="stat-number">40%</span>
+          <span class="stat-label">Effort Reduction</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-icon">🎯</span>
+          <span class="stat-number">25%</span>
+          <span class="stat-label">Forecast Accuracy</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-icon">📊</span>
+          <span class="stat-number">12+</span>
+          <span class="stat-label">Dashboard Views</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-icon">💰</span>
+          <span class="stat-number">70%</span>
+          <span class="stat-label">Top Products Profit</span>
+        </div>
+      </div>
+      
+      <p>Developed a comprehensive <span class="highlight-tech">Power BI</span> dashboard analyzing over <span class="highlight-number">10,000</span> coffee sales records across <span class="highlight-number">25</span> store locations. Implemented advanced <span class="highlight">DAX measures</span>, <span class="highlight">dynamic filters</span>, and <span class="highlight">time-intelligence functions</span> to monitor monthly revenue growth, profit margins, and category performance. Automated reporting reduced manual effort by <span class="highlight-result">40%</span> and improved sales forecasting accuracy by <span class="highlight-result">25%</span>. Enabled management to identify the top <span class="highlight-number">10</span> products driving <span class="highlight-result">70%</span> of total profit and optimize promotional strategies.</p>
+    </article>
+
+    <!-- Hospital ER -->
+    <article class="post" data-category="powerbi">
+      <header><div class="title">
+        <h2><a href="https://github.com/TranVuongHoan/HospitalERPowerBI" target="_blank">Hospital ER Analytics (Power BI)</a></h2>
+        <p>ER performance: wait times, patient flow, race/age, weekday-hour heatmaps.</p></div>
+        <div class="meta"><time class="published">Nov 2023</time><a href="#" class="author"><span class="name">Cedric Tran</span><img src="images/avatar.jpg" alt=""/></a></div></header>
+      <div class="project-media">
+        <a href="https://github.com/TranVuongHoan/HospitalERPowerBI" class="image featured"><img src="https://vuong-hoan-analyst-portfolio.netlify.app/images/hospital.png" alt="Hospital" /></a>
+      </div>
+      
+      <!-- Stats Cards for Hospital ER -->
+      <div class="stats-container">
+        <div class="stat-card">
+          <span class="stat-icon">🏥</span>
+          <span class="stat-number">15,000+</span>
+          <span class="stat-label">Emergency Visits</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-icon">⏱️</span>
+          <span class="stat-number">18%</span>
+          <span class="stat-label">Wait Time Reduction</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-icon">🛏️</span>
+          <span class="stat-number">12%</span>
+          <span class="stat-label">Bed Turnover Rate</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-icon">📊</span>
+          <span class="stat-number">24/7</span>
+          <span class="stat-label">Real-time Monitoring</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-icon">⚡</span>
+          <span class="stat-number">3</span>
+          <span class="stat-label">Critical Metrics</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-icon">🎯</span>
+          <span class="stat-number">100%</span>
+          <span class="stat-label">Data Coverage</span>
+        </div>
+      </div>
+      
+      <p>Created an advanced <span class="highlight-tech">ER analytics dashboard</span> visualizing patient flow, wait times, and capacity utilization for <span class="highlight-number">15,000+</span> emergency visits. Applied <span class="highlight">Power Query transformations</span> and <span class="highlight">calculated measures</span> to identify critical bottlenecks by hour, race, and triage category. Revealed efficiency opportunities that could reduce average wait time by <span class="highlight-result">18%</span> and improve bed turnover rate by <span class="highlight-result">12%</span>. The dashboard empowered hospital management to make <span class="highlight">data-driven decisions</span> improving patient care and operational readiness.</p>
+    </article>
+
+    <!-- HR Analytics -->
+    <article class="post" data-category="powerbi">
+      <header><div class="title">
+        <h2><a href="https://github.com/TranVuongHoan/HR-Analytics-Dashboard" target="_blank">HR Analytics Dashboard (Power BI)</a></h2>
+        <p>Workforce trends, attrition, and demographics with KPI tiles & treemap drill-downs.</p></div>
+        <div class="meta"><time class="published">Dec 2022</time><a href="#" class="author"><span class="name">Cedric Tran</span><img src="images/avatar.jpg" alt=""/></a></div></header>
+      <div class="project-media">
+        <a href="https://github.com/TranVuongHoan/HR-Analytics-Dashboard" class="image featured"><img src="https://vuong-hoan-analyst-portfolio.netlify.app/images/hr.png" alt="HR" /></a>
+      </div>
+      
+      <!-- Stats Cards for HR Analytics -->
+      <div class="stats-container">
+        <div class="stat-card">
+          <span class="stat-icon">👥</span>
+          <span class="stat-number">5,000+</span>
+          <span class="stat-label">Employee Records</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-icon">📉</span>
+          <span class="stat-number">10%</span>
+          <span class="stat-label">Attrition Reduction</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-icon">📈</span>
+          <span class="stat-number">15%</span>
+          <span class="stat-label">Engagement Improvement</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-icon">🎯</span>
+          <span class="stat-number">100%</span>
+          <span class="stat-label">Data Coverage</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-icon">📈</span>
+          <span class="stat-number">5</span>
+          <span class="stat-label">Key Metrics</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-icon">🔍</span>
+          <span class="stat-number">3</span>
+          <span class="stat-label">Analysis Views</span>
+        </div>
+      </div>
+      
+      <p>Built a <span class="highlight">data-driven HR dashboard</span> combining <span class="highlight-tech">SQL</span> data extraction and <span class="highlight-tech">Power BI</span> for <span class="highlight-number">5,000+</span> employee records. Provided visual insights into headcount trends, attrition rates, and workforce diversity using <span class="highlight">interactive charts</span> and <span class="highlight">drill-down views</span>. Designed metrics for gender ratio, departmental turnover, and <span class="highlight">performance KPIs</span>. Findings led to initiatives projected to reduce attrition by <span class="highlight-result">10%</span> and improve engagement scores by <span class="highlight-result">15%</span>, supporting long-term <span class="highlight">HR strategy</span> and workforce planning.</p>
+    </article>
+
+    <!-- Gold Price -->
+    <article class="post" data-category="python">
+      <header><div class="title">
+        <h2><a href="https://github.com/TranVuongHoan/GoldPredictionPython" target="_blank">Gold Price Prediction (Python)</a></h2>
+        <p>Time-series forecasting and regression analysis of gold prices using Python and machine learning models.</p></div>
+        <div class="meta"><time class="published">Jan 2024</time><a href="#" class="author"><span class="name">Cedric Tran</span><img src="images/avatar.jpg" alt=""/></a></div></header>
+      <div class="project-media">
+        <div class="carousel-container">
+        <div class="carousel-slide">
+          <img src="images/gold.png" class="carousel-image active">
+          <img src="images/gold1.png" class="carousel-image">
+          <img src="images/gold2.png" class="carousel-image">
+          <img src="images/gold3.png" class="carousel-image">
+        </div>
+        <button class="carousel-btn prev">&#10094;</button>
+        <button class="carousel-btn next">&#10095;</button>
+        </div>
+      </div>
+      
+      <!-- Stats Cards for Gold Price Prediction -->
+      <div class="stats-container">
+        <div class="stat-card">
+          <span class="stat-icon">📅</span>
+          <span class="stat-number">10</span>
+          <span class="stat-label">Years of Data</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-icon">🎯</span>
+          <span class="stat-number">0.93</span>
+          <span class="stat-label">R² Score</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-icon">📉</span>
+          <span class="stat-number">21%</span>
+          <span class="stat-label">MAE Reduction</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-icon">🤖</span>
+          <span class="stat-number">3</span>
+          <span class="stat-label">ML Models</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-icon">📊</span>
+          <span class="stat-number">4</span>
+          <span class="stat-label">Python Libraries</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-icon">💹</span>
+          <span class="stat-number">2</span>
+          <span class="stat-label">Trading Strategies</span>
+        </div>
+      </div>
+      
+      <p>Developed a <span class="highlight">machine learning pipeline</span> analyzing <span class="highlight-number">10 years</span> of gold price data using <span class="highlight-tech">Python</span>, <span class="highlight-tech">pandas</span>, <span class="highlight-tech">scikit-learn</span>, and <span class="highlight-tech">TensorFlow</span>. Implemented <span class="highlight">Random Forest</span>, <span class="highlight">XGBoost</span>, and <span class="highlight">LSTM</span> models, achieving <span class="highlight-result">R² = 0.93</span> and <span class="highlight-result">MAE reduction of 21%</span> compared to baseline. Conducted <span class="highlight">time-series decomposition</span>, <span class="highlight">moving average smoothing</span>, and <span class="highlight">feature correlation</span>. Integrated <span class="highlight">RSI</span> and <span class="highlight">moving average strategies</span> for backtesting, helping to simulate trading scenarios and optimize investment performance.</p>
+    </article>
+
+    <!-- COVID -->
+    <article class="post" data-category="python">
+      <header><div class="title">
+        <h2><a href="https://github.com/TranVuongHoan/HousePricePredictionPython" target="_blank">COVID Data Analytics (Python)</a></h2>
+        <p>Python-based data analysis and visualization of COVID-19 global trends and impacts.</p></div>
+        <div class="meta"><time class="published">Feb 2024</time><a href="#" class="author"><span class="name">Cedric Tran</span><img src="images/avatar.jpg" alt=""/></a></div></header>
+      <div class="project-media">
+        <div class="carousel-container">
+        <div class="carousel-slide">
+          <img src="images/covid.png" class="carousel-image active">
+          <img src="images/covid1.png" class="carousel-image">
+          <img src="images/covid2.png" class="carousel-image">
+          <img src="images/covid3.png" class="carousel-image">
+        </div>
+        <button class="carousel-btn prev">&#10094;</button>
+        <button class="carousel-btn next">&#10095;</button>
+        </div>
+      </div>
+      
+      <!-- Stats Cards for COVID Analytics -->
+      <div class="stats-container">
+        <div class="stat-card">
+          <span class="stat-icon">🌍</span>
+          <span class="stat-number">200+</span>
+          <span class="stat-label">Countries Analyzed</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-icon">🎯</span>
+          <span class="stat-number">92%</span>
+          <span class="stat-label">Prediction Accuracy</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-icon">📊</span>
+          <span class="stat-number">80%</span>
+          <span class="stat-label">Global Case Coverage</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-icon">🔬</span>
+          <span class="stat-number">4</span>
+          <span class="stat-label">Python Libraries</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-icon">📈</span>
+          <span class="stat-number">3</span>
+          <span class="stat-label">Trend Categories</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-icon">🎯</span>
+          <span class="stat-number">10</span>
+          <span class="stat-label">Top Countries</span>
+        </div>
+      </div>
+      
+      <p>Performed <span class="highlight">large-scale COVID-19 data analysis</span> using <span class="highlight-tech">pandas</span>, <span class="highlight-tech">NumPy</span>, <span class="highlight-tech">matplotlib</span>, and <span class="highlight-tech">scikit-learn</span>. Processed <span class="highlight-number">200+</span> country datasets from <span class="highlight">Johns Hopkins repository</span>, visualizing infection, recovery, and mortality trends. Built <span class="highlight">regression models</span> predicting case growth with <span class="highlight-result">92% accuracy</span>. Explored relationships between vaccination rates, government response, and infection outcomes. Delivered <span class="highlight">actionable insights</span> through visual dashboards highlighting the top <span class="highlight-number">10</span> countries driving <span class="highlight-result">80%</span> of global case changes.</p>
+    </article>
+
+    <!-- House Price -->
+    <article class="post" data-category="python">
+      <header><div class="title">
+        <h2><a href="https://github.com/TranVuongHoan/HousePricePredictionPython" target="_blank">House Price Prediction (Python)</a></h2>
+        <p>Regression models forecasting housing prices with EDA, feature engineering, and interpretability.</p></div>
+        <div class="meta"><time class="published">Aug 2024</time><a href="#" class="author"><span class="name">Cedric Tran</span><img src="images/avatar.jpg" alt=""/></a></div></header>
+      <div class="project-media">
+        <div class="carousel-container">
+        <div class="carousel-slide">
+          <img src="images/house.png" class="carousel-image active">
+          <img src="images/house1.png" class="carousel-image">
+          <img src="images/house2.png" class="carousel-image">
+          <img src="images/house3.png" class="carousel-image">
+        </div>
+        <button class="carousel-btn prev">&#10094;</button>
+        <button class="carousel-btn next">&#10095;</button>
+        </div>
+      </div>
+      
+      <!-- Stats Cards for House Price Prediction -->
+      <div class="stats-container">
+        <div class="stat-card">
+          <span class="stat-icon">🏠</span>
+          <span class="stat-number">80+</span>
+          <span class="stat-label">Housing Attributes</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-icon">🎯</span>
+          <span class="stat-number">0.91</span>
+          <span class="stat-label">R² Score</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-icon">📉</span>
+          <span class="stat-number">18%</span>
+          <span class="stat-label">RMSE Reduction</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-icon">🤖</span>
+          <span class="stat-number">3</span>
+          <span class="stat-label">ML Algorithms</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-icon">🔧</span>
+          <span class="stat-number">2</span>
+          <span class="stat-label">Analysis Tools</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-icon">💡</span>
+          <span class="stat-number">100%</span>
+          <span class="stat-label">Model Interpretability</span>
+        </div>
+      </div>
+      
+      <p>Developed <span class="highlight">predictive models</span> for real-estate valuation using <span class="highlight-number">80+</span> housing attributes including square footage, neighborhood score, and renovation year. Applied <span class="highlight">Random Forest</span>, <span class="highlight">Gradient Boosting</span>, and <span class="highlight">MLP</span> with <span class="highlight">grid search hyperparameter tuning</span>. Achieved <span class="highlight-result">R² = 0.91</span> with <span class="highlight-result">RMSE reduction of 18%</span>. Used <span class="highlight-tech">SHAP</span> and <span class="highlight">feature importance</span> to enhance interpretability. Findings supported <span class="highlight">strategic pricing</span> and <span class="highlight">investment recommendations</span> based on market behavior and property characteristics.</p>
+    </article>
+
+    <!-- Australia Labour Market -->
+    <article class="post" data-category="tableau">
+      <header><div class="title">
+        <h2><a href="https://github.com/TranVuongHoan/Australia-Labour-Market" target="_blank">Australia Labour Market Analytics (Tableau)</a></h2>
+        <p>Victorian Public Sector workforce analytics: engagement, remuneration, demographics, and equity outcomes.</p></div>
+        <div class="meta"><time class="published">Jan 2025</time><a href="#" class="author"><span class="name">Cedric Tran</span><img src="images/avatar.jpg" alt=""/></a></div></header>
+      <div class="project-media">
+        <div class="carousel-container">
+        <div class="carousel-slide">
+          <img src="images/labor.png" class="carousel-image active">
+          <img src="images/labor1.png" class="carousel-image">
+          <img src="images/labor2.png" class="carousel-image">
+          <img src="images/labor3.png" class="carousel-image">
+        </div>
+        <button class="carousel-btn prev">&#10094;</button>
+        <button class="carousel-btn next">&#10095;</button>
+        </div>
+      </div>
+      
+      <!-- Stats Cards for Australia Labour Market -->
+      <div class="stats-container">
+        <div class="stat-card">
+          <span class="stat-icon">🏛️</span>
+          <span class="stat-number">VPS</span>
+          <span class="stat-label">Public Sector</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-icon">📊</span>
+          <span class="stat-number">2</span>
+          <span class="stat-label">Datasets Combined</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-icon">📅</span>
+          <span class="stat-number">4</span>
+          <span class="stat-label">Year Analysis</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-icon">🎯</span>
+          <span class="stat-number">5</span>
+          <span class="stat-label">Report Pages</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-icon">🔧</span>
+          <span class="stat-number">3</span>
+          <span class="stat-label">Analysis Tools</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-icon">📈</span>
+          <span class="stat-number">100%</span>
+          <span class="stat-label">Data Coverage</span>
+        </div>
+      </div>
+      
+      <p>Developed a comprehensive <span class="highlight">workforce analytics project</span> analyzing <span class="highlight">Victorian Public Sector</span> data by integrating <span class="highlight-tech">SOPS 2020 Staff Opinion Survey</span> with <span class="highlight-tech">SOPS 2024 Remuneration dataset</span>. Built interactive <span class="highlight-tech">Tableau</span> dashboards to assess <span class="highlight">workforce engagement</span>, <span class="highlight">remuneration patterns</span>, and <span class="highlight">equity outcomes</span> across departments and occupations. Designed <span class="highlight">ETL workflows</span> using <span class="highlight-tech">Python pandas</span> for complex Excel data preparation and created <span class="highlight">star schema</span> data modeling. Delivered actionable insights supporting <span class="highlight">evidence-based HR decision-making</span> with comprehensive demographic analysis and pay equity trends.</p>
+    </article>
+
+  </div>
+
+  <!-- Sidebar -->
+  <section id="sidebar">
+    <section id="intro">
+      <a href="#" class="logo"><img src="images/logo.jpg" alt=""/></a>
+      <header>
+        <h2>Cedric Tran</h2>
+        <p>Data Analyst — Power BI · SQL · Tableau · Python · Excel</p>
+      </header>
+    </section>
+
+    <section class="blurb">
+      <h2>About</h2>
+      <p>I'm Cedric Tran (Vuong Hoan Tran), a Melbourne-based Data Analyst. I build interactive dashboards and analytical models across Power BI, SQL, Tableau, Python, and Excel — turning raw data into actionable insights.</p>
+      <ul class="actions"><li><a href="mailto:hoanvtran.work@gmail.com" class="button">Email Me</a></li></ul>
+    </section>
+
+    <!-- Contact Information -->
+    <section class="roadmap-section">
+      <h2>📞 Contact</h2>
+      
+      <div class="certification-item microsoft">
+        <div class="cert-date">Phone</div>
+        <div class="cert-title">0478567001</div>
+        <div class="cert-issuer">📱 Mobile</div>
+        <div class="cert-skills">
+          <span class="cert-badge microsoft">Available</span>
+          <span class="cert-badge microsoft">WhatsApp</span>
+        </div>
+      </div>
+
+      <div class="certification-item hackerrank">
+        <div class="cert-date">Email</div>
+        <div class="cert-title">hoanvtran.work@gmail.com</div>
+        <div class="cert-issuer">📧 Professional</div>
+        <div class="cert-skills">
+          <span class="cert-badge hackerrank">Business</span>
+          <span class="cert-badge hackerrank">Professional</span>
+        </div>
+      </div>
+
+      <div class="certification-item forage">
+        <div class="cert-date">Location</div>
+        <div class="cert-title">Melbourne, VIC</div>
+        <div class="cert-issuer">📍 Australia</div>
+        <div class="cert-skills">
+          <span class="cert-badge forage">Melbourne</span>
+          <span class="cert-badge forage">Victoria</span>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- Professional Roadmap -->
+    <section class="roadmap-section">
+      <h2>🗺️ Roadmap</h2>
+      
+      <div class="roadmap-container">
+        <div class="roadmap-timeline">
+          
+          <!-- Current Position -->
+          <div class="roadmap-item current">
+            <div class="roadmap-date">Sep 2025 – Present</div>
+            <div class="roadmap-title">Data & Information Management Analyst</div>
+            <div class="roadmap-company">The Salvation Army</div>
+            <div class="roadmap-description">
+              Supporting data integrity across <span class="roadmap-highlight">10,000+ client records</span>, improving reporting accuracy by <span class="roadmap-highlight">15%</span>, and reducing record retrieval time by <span class="roadmap-highlight">30%</span>.
+              
+              <div style="margin-top: 10px;">
+                <strong>Key Skills & Technologies:</strong>
+                <ul style="margin: 5px 0 0 0; padding-left: 20px; font-size: 0.9em; list-style-type: disc;">
+                  <li style="list-style-type: disc;">Data cleaning, standardisation, and validation using <span class="roadmap-highlight">Excel</span> and <span class="roadmap-highlight">Power BI</span></li>
+                  <li style="list-style-type: disc;">Database management and maintenance across multiple systems</li>
+                  <li style="list-style-type: disc;">Data governance and privacy framework compliance</li>
+                  <li style="list-style-type: disc;">Cross-functional team collaboration and workflow optimization</li>
+                  <li style="list-style-type: disc;">Monthly insights presentations and management reporting</li>
+                  <li style="list-style-type: disc;">Document control and secure file management</li>
+                </ul>
+              </div>
+              
+              <div style="margin-top: 15px;">
+                <strong>Technical Skills:</strong>
+                <div style="display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px;">
+                  <span style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 3px 8px; border-radius: 12px; font-size: 0.75em;">Microsoft Power BI</span>
+                  <span style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); color: white; padding: 3px 8px; border-radius: 12px; font-size: 0.75em;">Microsoft Excel</span>
+                  <span style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); color: white; padding: 3px 8px; border-radius: 12px; font-size: 0.75em;">SQL</span>
+                  <span style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); color: white; padding: 3px 8px; border-radius: 12px; font-size: 0.75em;">Data Analysis</span>
+                  <span style="background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%); color: #333; padding: 3px 8px; border-radius: 12px; font-size: 0.75em;">Data Visualization</span>
+                  <span style="background: linear-gradient(135deg, #a8c0ff 0%, #3f2b96 100%); color: white; padding: 3px 8px; border-radius: 12px; font-size: 0.75em;">Data Management</span>
+                  <span style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 3px 8px; border-radius: 12px; font-size: 0.75em;">Microsoft Power Query</span>
+                  <span style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); color: white; padding: 3px 8px; border-radius: 12px; font-size: 0.75em;">Data Models</span>
+                  <span style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); color: white; padding: 3px 8px; border-radius: 12px; font-size: 0.75em;">Databases</span>
+                  <span style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); color: white; padding: 3px 8px; border-radius: 12px; font-size: 0.75em;">Data Warehousing</span>
+                </div>
+              </div>
+              
+              <div style="margin-top: 12px;">
+                <strong>Transferrable Skills:</strong>
+                <div style="display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px;">
+                  <span style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 3px 8px; border-radius: 12px; font-size: 0.75em;">Communication</span>
+                  <span style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); color: white; padding: 3px 8px; border-radius: 12px; font-size: 0.75em;">Problem Solving</span>
+                  <span style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); color: white; padding: 3px 8px; border-radius: 12px; font-size: 0.75em;">Analytical Skills</span>
+                  <span style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); color: white; padding: 3px 8px; border-radius: 12px; font-size: 0.75em;">KPI Analysis</span>
+                  <span style="background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%); color: #333; padding: 3px 8px; border-radius: 12px; font-size: 0.75em;">Performance Optimization</span>
+                  <span style="background: linear-gradient(135deg, #a8c0ff 0%, #3f2b96 100%); color: white; padding: 3px 8px; border-radius: 12px; font-size: 0.75em;">Collaborative Problem Solving</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Previous Position -->
+          <div class="roadmap-item">
+            <div class="roadmap-date">Oct 2023 – Sep 2025</div>
+            <div class="roadmap-title">Data / Business Analyst</div>
+            <div class="roadmap-company">Jung Talents</div>
+            <div class="roadmap-description">
+              Facilitated <span class="roadmap-highlight">50+ workshops</span> annually, designed <span class="roadmap-highlight">5 Power BI dashboards</span> for <span class="roadmap-highlight">100,000+ records</span>, improving decision-making efficiency by <span class="roadmap-highlight">30%</span>.
+              
+              <div style="margin-top: 10px;">
+                <strong>Key Skills & Technologies:</strong>
+                <ul style="margin: 5px 0 0 0; padding-left: 20px; font-size: 0.9em; list-style-type: disc;">
+                  <li style="list-style-type: disc;">Requirements gathering and stakeholder management across <span class="roadmap-highlight">50+ workshops</span> annually</li>
+                  <li style="list-style-type: disc;">Interactive dashboard design using <span class="roadmap-highlight">Power BI</span> and <span class="roadmap-highlight">Excel</span></li>
+                  <li style="list-style-type: disc;">Digital filing system management with <span class="roadmap-highlight">99% accuracy</span> compliance</li>
+                  <li style="list-style-type: disc;">Staff onboarding, training, and system support coordination</li>
+                  <li style="list-style-type: disc;">Agile workflow management and vendor liaison</li>
+                  <li style="list-style-type: disc;">Data analysis and visualization for business intelligence</li>
+                </ul>
+              </div>
+              
+              <div style="margin-top: 15px;">
+                <strong>Technical Skills:</strong>
+                <div style="display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px;">
+                  <span style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 3px 8px; border-radius: 12px; font-size: 0.75em;">Microsoft Power BI</span>
+                  <span style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); color: white; padding: 3px 8px; border-radius: 12px; font-size: 0.75em;">Microsoft Excel</span>
+                  <span style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); color: white; padding: 3px 8px; border-radius: 12px; font-size: 0.75em;">Data Analytics</span>
+                  <span style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); color: white; padding: 3px 8px; border-radius: 12px; font-size: 0.75em;">Data Visualization</span>
+                  <span style="background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%); color: #333; padding: 3px 8px; border-radius: 12px; font-size: 0.75em;">Data Modeling</span>
+                  <span style="background: linear-gradient(135deg, #a8c0ff 0%, #3f2b96 100%); color: white; padding: 3px 8px; border-radius: 12px; font-size: 0.75em;">IT Business Analysis</span>
+                  <span style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 3px 8px; border-radius: 12px; font-size: 0.75em;">Business Analytics</span>
+                </div>
+              </div>
+              
+              <div style="margin-top: 12px;">
+                <strong>Transferrable Skills:</strong>
+                <div style="display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px;">
+                  <span style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 3px 8px; border-radius: 12px; font-size: 0.75em;">Communication</span>
+                  <span style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); color: white; padding: 3px 8px; border-radius: 12px; font-size: 0.75em;">Problem Solving</span>
+                  <span style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); color: white; padding: 3px 8px; border-radius: 12px; font-size: 0.75em;">Analytical Skills</span>
+                  <span style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); color: white; padding: 3px 8px; border-radius: 12px; font-size: 0.75em;">KPI Analysis</span>
+                  <span style="background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%); color: #333; padding: 3px 8px; border-radius: 12px; font-size: 0.75em;">Collaborative Problem Solving</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+        </div>
+      </div>
+
+      <h3>🎯 Key Achievements</h3>
+      <ul style="font-size: 0.9em; color: #666; line-height: 1.5;">
+        <li>Improved reporting accuracy by <strong>15%</strong> at Salvation Army</li>
+        <li>Reduced record retrieval time by <strong>30%</strong> through workflow optimization</li>
+        <li>Designed <strong>5 interactive dashboards</strong> for 100,000+ transaction records</li>
+        <li>Facilitated <strong>50+ workshops</strong> annually at Jung Talents</li>
+        <li>Maintained <strong>99% accuracy</strong> in compliance records</li>
+      </ul>
+
+      <h3>🛠️ Core Skills</h3>
+      <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px;">
+        <span style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 4px 8px; border-radius: 12px; font-size: 0.8em;">Power BI</span>
+        <span style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); color: white; padding: 4px 8px; border-radius: 12px; font-size: 0.8em;">Excel Advanced</span>
+        <span style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); color: white; padding: 4px 8px; border-radius: 12px; font-size: 0.8em;">Python</span>
+        <span style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); color: white; padding: 4px 8px; border-radius: 12px; font-size: 0.8em;">SQL</span>
+        <span style="background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%); color: #333; padding: 4px 8px; border-radius: 12px; font-size: 0.8em;">Tableau</span>
+        <span style="background: linear-gradient(135deg, #a8c0ff 0%, #3f2b96 100%); color: white; padding: 4px 8px; border-radius: 12px; font-size: 0.8em;">Data Analysis</span>
+      </div>
+    </section>
+
+    <!-- Certifications -->
+    <section class="roadmap-section">
+      <h2>🏆 Certifications & Achievements</h2>
+      
+      <!-- Microsoft Certifications -->
+      <div class="certification-item microsoft">
+        <div class="cert-date">Issued May 2025</div>
+        <div class="cert-title"><a href="#" target="_blank">PL-300: Microsoft Power BI Data Analyst</a></div>
+        <div class="cert-issuer">Microsoft</div>
+        <div class="cert-skills">
+          <span class="cert-badge microsoft">Power BI</span>
+          <span class="cert-badge microsoft">Data Analysis</span>
+          <span class="cert-badge microsoft">DAX</span>
+        </div>
+      </div>
+
+      <div class="certification-item microsoft">
+        <div class="cert-date">Issued Apr 2025</div>
+        <div class="cert-title"><a href="#" target="_blank">DP-600: Microsoft Azure Data Engineer Associate</a></div>
+        <div class="cert-issuer">Microsoft</div>
+        <div class="cert-skills">
+          <span class="cert-badge microsoft">Azure</span>
+          <span class="cert-badge microsoft">Data Engineering</span>
+          <span class="cert-badge microsoft">SQL</span>
+        </div>
+      </div>
+
+      <div class="certification-item microsoft">
+        <div class="cert-date">Issued Mar 2025</div>
+        <div class="cert-title"><a href="#" target="_blank">DP-700: Microsoft Azure Data Engineer Expert</a></div>
+        <div class="cert-issuer">Microsoft</div>
+        <div class="cert-skills">
+          <span class="cert-badge microsoft">Azure</span>
+          <span class="cert-badge microsoft">Data Engineering</span>
+          <span class="cert-badge microsoft">Advanced SQL</span>
+        </div>
+      </div>
+
+      <div class="certification-item microsoft">
+        <div class="cert-date">Issued Feb 2025</div>
+        <div class="cert-title"><a href="#" target="_blank">Microsoft Certified: Dynamics 365 Fundamentals (CRM)</a></div>
+        <div class="cert-issuer">Microsoft</div>
+        <div class="cert-skills">
+          <span class="cert-badge microsoft">Dynamics 365</span>
+          <span class="cert-badge microsoft">CRM</span>
+          <span class="cert-badge microsoft">Business Applications</span>
+        </div>
+      </div>
+
+      <div class="certification-item microsoft">
+        <div class="cert-date">Issued Jan 2025</div>
+        <div class="cert-title"><a href="#" target="_blank">Microsoft Certified: Dynamics 365 Fundamentals (ERP)</a></div>
+        <div class="cert-issuer">Microsoft</div>
+        <div class="cert-skills">
+          <span class="cert-badge microsoft">Dynamics 365</span>
+          <span class="cert-badge microsoft">ERP</span>
+          <span class="cert-badge microsoft">Business Applications</span>
+        </div>
+      </div>
+
+      <!-- HackerRank Certifications -->
+      <div class="certification-item hackerrank">
+        <div class="cert-date">Issued May 2025</div>
+        <div class="cert-title"><a href="#" target="_blank">Certificate of Accomplishment - SQL Advanced</a></div>
+        <div class="cert-issuer">HackerRank</div>
+        <div class="cert-skills">
+          <span class="cert-badge hackerrank">SQL Advanced</span>
+          <span class="cert-badge hackerrank">Database</span>
+          <span class="cert-badge hackerrank">Problem Solving</span>
+        </div>
+      </div>
+
+      <!-- Forage Job Simulations -->
+      <div class="certification-item forage">
+        <div class="cert-date">Issued Mar 2024</div>
+        <div class="cert-title"><a href="#" target="_blank">PwC Switzerland - Power BI Job Simulation</a></div>
+        <div class="cert-issuer">Forage</div>
+        <div class="cert-skills">
+          <span class="cert-badge forage">Power BI</span>
+          <span class="cert-badge forage">Data Models</span>
+          <span class="cert-badge forage">Business Intelligence</span>
+        </div>
+      </div>
+
+      <div class="certification-item forage">
+        <div class="cert-date">Issued Dec 2023</div>
+        <div class="cert-title"><a href="#" target="_blank">Accenture North America - Data Analytics and Visualization Job Simulation</a></div>
+        <div class="cert-issuer">Forage</div>
+        <div class="cert-skills">
+          <span class="cert-badge forage">Data Analytics</span>
+          <span class="cert-badge forage">Business Analytics</span>
+          <span class="cert-badge forage">Data Visualization</span>
+        </div>
+      </div>
+
+      <div class="certification-item forage">
+        <div class="cert-date">Issued Dec 2023</div>
+        <div class="cert-title"><a href="#" target="_blank">British Airways - Data Science Job Simulation</a></div>
+        <div class="cert-issuer">Forage</div>
+        <div class="cert-skills">
+          <span class="cert-badge forage">Data Science</span>
+          <span class="cert-badge forage">Programming Languages</span>
+          <span class="cert-badge forage">Machine Learning</span>
+        </div>
+      </div>
+
+      <div class="certification-item forage">
+        <div class="cert-date">Issued Dec 2023</div>
+        <div class="cert-title"><a href="#" target="_blank">Quantium - Data Analytics Job Simulation</a></div>
+        <div class="cert-issuer">Forage</div>
+        <div class="cert-skills">
+          <span class="cert-badge forage">Data Analytics</span>
+          <span class="cert-badge forage">Problem Solving</span>
+          <span class="cert-badge forage">Analytical Skills</span>
+        </div>
+      </div>
+
+      <div class="certification-item forage">
+        <div class="cert-date">Issued Dec 2023</div>
+        <div class="cert-title"><a href="#" target="_blank">Tata Group - Data Visualisation: Empowering Business with Effective Insights Job Simulation</a></div>
+        <div class="cert-issuer">Forage</div>
+        <div class="cert-skills">
+          <span class="cert-badge forage">Data Visualization</span>
+          <span class="cert-badge forage">Business Insights</span>
+          <span class="cert-badge forage">Dashboard Design</span>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- Education -->
+    <section class="roadmap-section">
+      <h2>🎓 Education & Leadership</h2>
+      
+      <!-- Main Education -->
+      <div class="certification-item microsoft">
+        <div class="cert-date">Jun 2024 - Jun 2026</div>
+        <div class="cert-title">Bachelor of Commerce - BCom</div>
+        <div class="cert-issuer">Monash University</div>
+        <div class="cert-skills" style="margin-top: 5px; font-size: 0.9em; color: #666; font-weight: 500;">
+          <strong>Major:</strong> Business Analytics | <strong>Minor:</strong> Marketing Science
+        </div>
+        <div class="cert-skills" style="margin-top: 10px;">
+          <span class="cert-badge microsoft">Distinction Average</span>
+          <span class="cert-badge microsoft">International Study Grant</span>
+        </div>
+        <div class="cert-skills" style="margin-top: 10px; font-size: 0.85em; color: #666;">
+          <strong>Coursework:</strong> Relational databases, Programming (Python, R), Data visualisation, Forecasting, Statistical modelling, Statistical thinking for decision-making
+        </div>
+        <div class="cert-skills" style="margin-top: 8px; font-size: 0.85em; color: #666;">
+          <strong>Skills:</strong> SQL, Power BI, Excel, R, Python, HR analytics, Customer segmentation, Dashboard automation
+        </div>
+      </div>
+
+      <!-- Leadership Roles -->
+      <h3>👥 Leadership & Activities</h3>
+      
+      <div class="certification-item hackerrank">
+        <div class="cert-date">Jun 2025 - Present</div>
+        <div class="cert-title">Peer Mentor</div>
+        <div class="cert-issuer">Monash Business School</div>
+        <div class="cert-skills">
+          <span class="cert-badge hackerrank">Mentoring</span>
+          <span class="cert-badge hackerrank">Leadership</span>
+          <span class="cert-badge hackerrank">Cross-cultural Collaboration</span>
+        </div>
+        <div class="cert-skills" style="margin-top: 8px; font-size: 0.85em; color: #666;">
+          Supported first-year students in adjusting to university life by offering guidance on academic skills, subject selection, and navigating university systems. Acted as a friendly point of contact for new students—especially international peers.
+        </div>
+      </div>
+
+      <div class="certification-item hackerrank">
+        <div class="cert-date">Jun 2025 - Present</div>
+        <div class="cert-title">Campus Ambassador</div>
+        <div class="cert-issuer">Monash Student Association</div>
+        <div class="cert-skills">
+          <span class="cert-badge hackerrank">Public Speaking</span>
+          <span class="cert-badge hackerrank">Event Coordination</span>
+          <span class="cert-badge hackerrank">Student Engagement</span>
+        </div>
+        <div class="cert-skills" style="margin-top: 8px; font-size: 0.85em; color: #666;">
+          Represented the student voice by supporting engagement activities, orientation events, and peer-led initiatives across campus. Helped new students navigate university life by sharing resources and promoting student services.
+        </div>
+      </div>
+
+      <div class="certification-item hackerrank">
+        <div class="cert-date">Jul 2025 - Present</div>
+        <div class="cert-title">Industry & Alumni Mentoring Program</div>
+        <div class="cert-issuer">Monash University</div>
+        <div class="cert-skills">
+          <span class="cert-badge hackerrank">Career Planning</span>
+          <span class="cert-badge hackerrank">Professional Development</span>
+          <span class="cert-badge hackerrank">Industry Readiness</span>
+        </div>
+        <div class="cert-skills" style="margin-top: 8px; font-size: 0.85em; color: #666;">
+          Selected to participate in a competitive 12-week mentoring program connecting final-year students with experienced alumni and industry professionals. Working one-on-one with a mentor to gain career insights and expand professional networks.
+        </div>
+      </div>
+
+      <!-- Additional Activities -->
+      <h3>🌟 Additional Activities</h3>
+      <div style="background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); padding: 15px; border-radius: 8px; margin-bottom: 15px;">
+        <ul style="font-size: 0.9em; color: #666; line-height: 1.6; margin: 0; padding-left: 20px;">
+          <li><strong>ASK Me Ambassador</strong> – Student Engagement</li>
+          <li><strong>Disability Allyship Training</strong> – DSS x Peer Mentoring</li>
+          <li><strong>MSA Rewards Program Volunteer</strong></li>
+          <li><strong>Monash Employability & Leadership workshops</strong></li>
+          <li><strong>Student Ambassador</strong> for pathway international students</li>
+        </ul>
+      </div>
+
+    </section>
+
+    <section id="footer">
+      <ul class="icons">
+        <li><a href="https://www.linkedin.com" class="icon brands fa-linkedin"><span class="label">LinkedIn</span></a></li>
+        <li><a href="https://github.com/TranVuongHoan" class="icon brands fa-github"><span class="label">GitHub</span></a></li>
+        <li><a href="mailto:hoanvtran@gmail.com" class="icon solid fa-envelope"><span class="label">Email</span></a></li>
+      </ul>
+      <p class="copyright">&copy; Cedric Tran. Design: <a href="http://html5up.net">HTML5 UP</a>.</p>
+    </section>
+  </section>
+</div>
+
+<!-- Scripts -->
+<script src="assets/js/jquery.min.js"></script>
+<script src="assets/js/browser.min.js"></script>
+<script src="assets/js/breakpoints.min.js"></script>
+<script src="assets/js/util.js"></script>
+<script src="assets/js/main.js"></script>
+
+<!-- Carousel Script -->
+<script>
+  const carousels = document.querySelectorAll('.carousel-container');
+  carousels.forEach((carousel) => {
+    const slides = carousel.querySelectorAll('.carousel-image');
+    let index = 0;
+    const next = carousel.querySelector('.carousel-btn.next');
+    const prev = carousel.querySelector('.carousel-btn.prev');
+
+    next.addEventListener('click', () => {
+      slides[index].classList.remove('active');
+      index = (index + 1) % slides.length;
+      slides[index].classList.add('active');
+    });
+    prev.addEventListener('click', () => {
+      slides[index].classList.remove('active');
+      index = (index - 1 + slides.length) % slides.length;
+      slides[index].classList.add('active');
+    });
+  });
+</script>
+
+</body>
+</html>
